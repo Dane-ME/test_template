@@ -54,6 +54,37 @@ particles.position.x -= 600 / 2;
 particles.position.y += 552 / 2;
 scene.add(particles);
 
+/* TEXT (3D Plane, not sprite) */
+const textCanvas = document.createElement("canvas");
+const ctx = textCanvas.getContext("2d");
+textCanvas.width = 1024;
+textCanvas.height = 512;
+
+ctx.fillStyle = "#ffffff";
+ctx.font = "bold 140px sans-serif";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText("I love u 3000", textCanvas.width / 2, textCanvas.height / 2);
+
+const textTexture = new THREE.CanvasTexture(textCanvas);
+textTexture.needsUpdate = true;
+
+const textMaterial = new THREE.MeshBasicMaterial({
+  map: textTexture,
+  transparent: true,
+  side: THREE.DoubleSide
+});
+
+const textPlane = new THREE.Mesh(
+  new THREE.PlaneGeometry(300, 150), 
+  textMaterial
+);
+
+textPlane.position.set(0, 0, 0);
+
+scene.add(textPlane);
+
+
 gsap.fromTo(scene.rotation, {
   y: -0.2
 }, {
